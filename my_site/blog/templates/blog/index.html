@@ -1,0 +1,16 @@
+{% extends "base.html"%}
+{% load static %}
+
+    {% block css %}
+    {% endblock %}
+
+    {% block content%}        
+        <div id="posts">
+            {% for p in list %}         
+                <div class="post">
+                    <span class="date">{{p.date}}</span>
+                    <span class="title"><a href="{% url "read-post" p.url %}">{{p.title}}</a></span>                    
+                </div>            
+            {% endfor %}
+        </div>
+    {% endblock %}
