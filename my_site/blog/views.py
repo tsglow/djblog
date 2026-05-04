@@ -17,7 +17,8 @@ posts = [
 
 def index(request):
     for p in posts:
-        p["url"] = slugify(p["title"])
+        if p.get("url") is None:
+            p["url"] = slugify(p["title"])
     print(posts)
     return render(request,"blog/index.html", {"list": posts} )
 
