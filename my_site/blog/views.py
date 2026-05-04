@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.text import slugify
 
-posts = [
+post_list = [
     {"date": "04-08", "title": "good day to die", "content": "good morning everyone, it is a good day to die"},
     {"date": "04-09", "title": "another day on earth", "content": "so I wake up once again, with a headache"},
     {"date": "04-10", "title": "RIP mushrooms", "content": "in the refrigerator, I have kept these guys for two months..."},
@@ -16,16 +16,19 @@ posts = [
 # Create your views here.
 
 def index(request):
-    for p in posts:
+    return render(request, "blog/index.html")
+
+def posts(request):
+    for p in post_list:
         if p.get("url") is None:
             p["url"] = slugify(p["title"])
-    print(posts)
-    return render(request,"blog/index.html", {"list": posts} )
+    print(post_list)
+    return render(request,"blog/posts.html", {"list": post_list} )
 
 
 def read_post(request,url):
     try:        
-        post = list(filter(lambda i : i['url'] == url, posts))[0]            
+        post = list(filter(lambda i : i['url'] == url, post_list))[0]            
         print(post)
         return render(request, "blog/post.html", {"post": post})       
     except:        
