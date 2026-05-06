@@ -15,8 +15,13 @@ post_list = [
 
 # Create your views here.
 
-def index(request):
-    return render(request, "blog/index.html")
+def index(request):    
+    recents = post_list[-2:][::-1]    
+    for r in recents:
+        if r.get("url") is None:
+            r["url"] = slugify(r["title"])    
+    return render(request, "blog/index.html", {"recent": recents})
+
 
 def posts(request):
     for p in post_list:

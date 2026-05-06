@@ -1,10 +1,45 @@
 {% extends "base.html"%}
 {% load static %}
 
-    {% block css %}
+    {% block title %}
+    my blog        
+    {% endblock  %}
+
+    {% block css %}    
+    <link rel="stylesheet" href="{% static 'blog/index.css' %}">
     {% endblock %}
 
-    {% block content%}        
-        <div>"welcome"</div>        
+    {% block content%}  
+    {% include "blog/includes/header.html" %}
+    <section id="welcome">
+        <header>
+            <img src="" alt="me - the author"/>
+            <h2>my blog</h2>
+        </header>
+        <p>Hi, this place is a full of shit.</p>
+    </section>
+    <section id="latest-posts">
+        <h2>My latest Thoughts</h2>
+        <ul>
+            {% for r in recent %}
+            <li>
+                <article class="post">
+                    <a href="{% url "read-post" r.url %}">                                                
+                        <div class="post__content">
+                            <h3>{{ r.title }}</h3>
+                            <p>{{ r.content }}</p>
+                        </div>
+                    </a>
+                </article>
+            </li>                
+            {% endfor %}            
+        </ul>
+    </section>
 
+    <section id="about">
+        <h2>What I do</h2>
+        <p>making full of shit</p>
+    </section>
     {% endblock %}
+    
+    
