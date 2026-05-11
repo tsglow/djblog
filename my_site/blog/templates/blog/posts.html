@@ -1,16 +1,23 @@
 {% extends "base.html"%}
 {% load static %}
 
-    {% block css %}
-    {% endblock %}
 
-    {% block content%}        
-        <div id="posts">
-            {% for p in list %}         
-                <div class="post">
-                    <span class="date">{{p.date}}</span>
-                    <span class="title"><a href="{% url "read-post" p.url %}">{{p.title}}</a></span>                    
-                </div>            
+    {% block title %}
+        all my posts      
+    {% endblock title %}
+
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'blog/posts.css' %}"/>
+    <link rel="stylesheet" href="{% static 'blog/post.css' %}"/>
+    {% endblock  %}
+        
+    {% block content %}
+    {% include "blog/includes/header.html" with movetolink="/" movetoname="Back to top" %}          
+        <ul id="all-posts">
+            {% for p in list %}
+                {% include 'blog/includes/preview.html' %}           
             {% endfor %}
-        </div>
+        </ul>
+    </section>          
+        
     {% endblock %}
