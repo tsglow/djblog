@@ -1,11 +1,8 @@
-from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect
-from django.urls import reverse
-from django.utils.text import slugify
-from .models import Author, Post
+from django.shortcuts import render, get_object_or_404
+from .models import Post
 from datetime import date
 
-
+'''
 post_list = [
     {"date": date(2026,4,11), "author": "max", "title": "Time flys like an arrow", "image": "mountains.jpg","content": "why time flys like an arrow, not a bunch of banana, or apple?"},
     {"date": date(2026,4,9), "author": "max", "title": "another day on earth", "image": "mountains.jpg", "content": "so I wake up once again, with a headache"},
@@ -16,13 +13,12 @@ post_list = [
 def get_date(post):
     return post.get("date")
 
+'''
 
 # Create your views here.
 
 def index(request):
-    posts = Post.objects.all().order_by("-date")            
-    print(posts)  
-    recents = posts[:2]        
+    recents = Post.objects.all().order_by("-date")[:2]                
     return render(request, "blog/index.html", {"recent": recents})
 
 
@@ -31,9 +27,6 @@ def posts(request):
     return render(request,"blog/posts.html", {"list": posts} )
 
 
-def read_post(request,url):
-    try:   
-        post = Post.objects.get(url=url)
-        return render(request, "blog/post.html", {"post": post})       
-    except:        
-        raise Http404()
+def read_post(request,url):       
+    post = get_object_or_404(Post, url=url)
+    return render(request, "blog/post.html", {"post": post})           
