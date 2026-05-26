@@ -1,0 +1,26 @@
+{% extends "base.html"%}
+{% load static %}
+
+
+    {% block title %}
+        all my posts      
+    {% endblock title %}
+
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'blog/posts.css' %}"/>
+    <link rel="stylesheet" href="{% static 'blog/post.css' %}"/>
+    {% endblock  %}
+        
+    {% block content %}
+    {% include "blog/includes/header.html" with movetolink="/" movetoname="Back to top" %}                  
+        <ul id="all-posts">
+            {% for p in list %}
+                {% include 'blog/includes/preview.html' %}           
+            {% endfor %}
+        </ul>
+        <div>
+            <center><h2>Posts in Tag : <a href="{% url 'tags' tag %}">{{tag}}</a> </h2></center>
+        </div>
+    </section>          
+        
+    {% endblock %}

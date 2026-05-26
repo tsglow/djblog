@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from django.http import Http404
+from .models import Post, Tag
 from datetime import date
 
 '''
@@ -17,6 +18,15 @@ def get_date(post):
 
 # Create your views here.
 
+def tags(request, url):
+    try:
+        print("야옹") 
+        tagged = Tag.objects.filter(caption=url)[0].post_set.all().order_by("-date")
+        return render(request, "blog/tag.html", {"tag": url, "list": tagged})
+    except:
+        raise Http404
+
+
 def index(request):
     recents = Post.objects.all().order_by("-date")[:2]                
     return render(request, "blog/index.html", {"recent": recents})
@@ -28,5 +38,13 @@ def posts(request):
 
 
 def read_post(request,url):       
-    post = get_object_or_404(Post, url=url)
-    return render(request, "blog/post.html", {"post": post})           
+    post = get_object_or_404(Post, url=url)        
+    str_post = {
+        "title": post.title,
+        "tag": post.tag.all().values_list('caption', flat=True),
+        "image": post.image,
+        "content": post.content,
+        "date": post.date
+    }
+    
+    return render(request, "blog/post.html", {"post": str_post})           

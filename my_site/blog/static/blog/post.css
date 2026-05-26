@@ -26,3 +26,7 @@
   border-radius: 50%;
 }
 
+h2 > a {
+  color:orange;
+  text-decoration: none;
+}
